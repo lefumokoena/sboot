@@ -10,75 +10,134 @@
 <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
 	th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
 
+<script th:src="@{/webjars/bootstrap/3.3.4/js/bootstrap.min.js}"></script>
+
 </head>
 
-
 <body>
-<br/><br/><br/>
 	<div class="container">
-		<div>
-			<!--  	<div th:if="${not #lists.isEmpty(projects)}">-->
+	<table class="table  table-responsive table-striped"
+		th:if="${not #lists.isEmpty(projects)}">
+		<thead>
+			<tr>				
+				<th>Primary Key</th>
+				<th>Title</th>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th>Billable</th>
+				<th>Active</th>
+				
+			</tr>
+		</thead>
 
-			<table class="table  table-responsive table-striped"
-				th:if="${not #lists.isEmpty(projects)}">
-				<thead>
-					<tr>
-						<th>Primary Key</th>
-						<th>Title</th>
-						<th>Start Date</th>
-						<th>End Date</th>
-						<th>Billable</th>
-						<th>Active</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each='project: ${projects}'>
-						<td th:text="${project.pk}">Test ...</td>
-						<td th:text="${project.title}">Test ...</td>
-						<td th:text="${#dates.format(project.start_date, 'dd-MMM-yyyy')}">Test
-							...</td>
-						<td th:text="${#dates.format(project.end_date, 'dd-MMM-yyyy')}">Test
-							...</td>
-						<td th:text="${project.is_billable}">Test ...</td>
-						<td th:text="${project.is_active}">Test ...</td>
+		<th:block th:each='project: ${projects}'>
+			<tr>
+				<td th:text="${project.pk}">Test ...</td>
+				<td th:text="${project.title}">Test ...</td>
+				<td th:text="${#dates.format(project.start_date, 'dd-MMM-yyyy')}">Test
+					...</td>
+				<td th:text="${#dates.format(project.end_date, 'dd-MMM-yyyy')}">Test
+					...</td>
+				<td th:text="${project.is_billable}">Test ...</td>
+				<td th:text="${project.is_active}">Test ...</td>
+				
+				</tr>
+			<tr>
+				<td colspan="6">
+					<table class="table  table-responsive table-striped"
+						th:if="${not #lists.isEmpty(project.task_set)}">
+						<thead>
+							<tr>
+								<th>Id</th>
+								<th>Title</th>
+								<th>Date</th>
+								<th>Estimated Hours</th>
+								<th>Project</th>
+								<th></th>
+							</tr>
+						</thead>
+						<th:block th:each='task: ${project.task_set}'>
+							<tr>
+								<td th:text="${task.id}">Test ...</td>
+								<td th:text="${task.title}">Test ...</td>
+								<td th:text="${#dates.format(task.due_date, 'dd-MMM-yyyy')}">Test
+									...</td>
+								<td th:text="${task.estimated_hours}">Test ...</td>
+								<td th:text="${task.project}">Test ...</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td colspan="6">
+									<table class="table  table-responsive table-striped">
+										<thead>
+											<tr>
+												<th>Primary Key</th>
+												<th>Title</th>
+												<th>Start Date</th>
+												<th>End Date</th>
+												<th>Billable</th>
+												<th>Active</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td th:text="${task.project_data.pk}">Test ...</td>
+												<td th:text="${task.project_data.title}">Test ...</td>
+												<td
+													th:text="${#dates.format(task.project_data.start_date, 'dd-MMM-yyyy')}">Test
+													...</td>
+												<td
+													th:text="${#dates.format(task.project_data.end_date, 'dd-MMM-yyyy')}">Test
+													...</td>
+												<td th:text="${task.project_data.is_billable}">Test ...</td>
+												<td th:text="${task.project_data.is_active}">Test ...</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="6">
+									<table class="table  table-responsive table-striped"
+									th:if="${not #lists.isEmpty(project.resource_set)}">
+										<thead>
+											<tr>
+												<th>Id</th>
+												<th>User</th>
+												<th>Start Date</th>
+												<th>End Date</th>
+												<th>Rate</th>
+												<th>Agreed Hours Per Month</th>
+												<th>created</th>
+												<th>updated</th>
+											</tr>
+										</thead>
+										<th:block th:each='resource: ${projects.resource_set}'>
+											<tr>
+												<td th:text="${resource.id}">Test ...</td>
+												<td th:text="${resource.user}">Test ...</td>
+												<td th:text="${resource.start_date}">Test ...</td>
+												<td th:text="${resource.end_date}">Test ...</td>
+												<td th:text="${resource.rate}">Test ...</td>
+												<td th:text="${resource.agreed_hours_per_month}">Test
+													...</td>
+												<td th:text="${resource.created}">Test ...</td>
+												<td th:text="${resource.updated}">Test ...</td>
+											</tr>
+										</th:block>
+									</table>
+								</td>
+							</tr>
+						</th:block>
+					</table>
+				</td>
+			</tr>
+		</th:block>
+	</table>
+</div>
 
-						<td>
 
-							<table class="table  table-responsive table-striped"
-								th:if="${not #lists.isEmpty(project.task_set)}">
-								<thead>
-									<tr>
-										<th>Id</th>
-										<th>Title</th>
-										<th>Date</th>
-										<th>Estimated Hours</th>
-										<th>Project</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each='task: ${project.task_set}'>
-										<td th:text="${task.id}">Test ...</td>
-										<td th:text="${task.title}">Test ...</td>
-										<td th:text="${#dates.format(task.due_date, 'dd-MMM-yyyy')}">Test
-											...</td>
-										<td th:text="${task.estimated_hours}">Test ...</td>
-										<td th:text="${task.project}">Test ...</td>
-									<tr>
-									<!--  	<td th:text="${task.project_data.pk}"></td> -->
-									</tr>
 
-									</tr>
-								</tbody>
-							</table>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-
-			<!--</div>  -->
-		</div>
-
-	</div>
 
 
 
